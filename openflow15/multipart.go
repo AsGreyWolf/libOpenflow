@@ -184,6 +184,7 @@ func (s *MultipartReply) MarshalBinary() (data []byte, err error) {
 }
 
 func (s *MultipartReply) UnmarshalBinary(data []byte) error {
+	klog.Infof("ASGW Unmarshaling multipart reply %v", data)
 	err := s.Header.UnmarshalBinary(data)
 	if err != nil {
 		return err
