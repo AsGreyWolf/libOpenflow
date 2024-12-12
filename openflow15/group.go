@@ -3,7 +3,6 @@ package openflow15
 // This file has all group related defs
 
 import (
-	"fmt"
 	"encoding/binary"
 	"errors"
 
@@ -147,7 +146,7 @@ func (g *GroupMod) UnmarshalBinary(data []byte) (err error) {
 	if err != nil {
 		return
 	}
-	fmt.Printf("ASGW %v\n", data)
+	klog.Infof("ASGW Unmarshaling %v", data[n:])
 	n += g.Header.Len()
 
 	g.Command = binary.BigEndian.Uint16(data[n:])
@@ -166,6 +165,7 @@ func (g *GroupMod) UnmarshalBinary(data []byte) (err error) {
 
 	bucketsEnd := n + g.BucketArrayLen
 	for n < bucketsEnd {
+		klog.Infof("ASGW Unmarshaling group %v", data[n:])
 		bkt := new(Bucket)
 		err = bkt.UnmarshalBinary(data[n:])
 		if err != nil {
@@ -177,6 +177,7 @@ func (g *GroupMod) UnmarshalBinary(data []byte) (err error) {
 	}
 
 	for n < g.Header.Length {
+		klog.Infof("ASGW Unmarshaling property %v", data[n:])
 		var p util.Message
 		switch binary.BigEndian.Uint16(data[n:]) {
 		case GPT_EXPERIMENTER:
