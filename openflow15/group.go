@@ -3,6 +3,7 @@ package openflow15
 // This file has all group related defs
 
 import (
+	"fmt"
 	"encoding/binary"
 	"errors"
 
@@ -146,6 +147,7 @@ func (g *GroupMod) UnmarshalBinary(data []byte) (err error) {
 	if err != nil {
 		return
 	}
+	fmt.Printf("ASGW %v\n", data)
 	n += g.Header.Len()
 
 	g.Command = binary.BigEndian.Uint16(data[n:])
